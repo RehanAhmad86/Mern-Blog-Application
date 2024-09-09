@@ -21,7 +21,7 @@ export default function Header() {
             className='hidden lg:inline'
             />
         </form>
-        <Button className='lg:hidden w-12 h-10' pill color='gray'>
+        <Button className='lg:hidden w-12 h-10 flex justify-center items-center' pill color='gray'>
             <AiOutlineSearch/>
         </Button>
         <div className='flex items-center gap-2 md:order-2'>
@@ -29,7 +29,7 @@ export default function Header() {
             <FaMoon className='text-black'/>
             </Button>
             <Link to={'/signin'} >
-            <Button gradientDuoTone='purpleToBlue' className='self-center'>
+            <Button gradientDuoTone='purpleToBlue' outline className='self-center'>
             Sign In
             </Button>
             </Link>
