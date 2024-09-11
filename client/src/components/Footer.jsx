@@ -6,7 +6,7 @@ import { BsFacebook, BsGithub, BsInstagram, BsDribbble, BsTwitter, BsThreads } f
 export default function FooterComponent() {
     return (
         <Footer container className='border border-t-8 border-teal-400 flex flex-col'>
-            <div className='w-full flex justify-around items-center max-w-7xl mx-auto gap-10 mb-5 p-5 sm:px-10'>
+            <div className='w-full flex justify-around items-center max-w-7xl mx-auto gap-5 mb-3 p-3 sm:px-5'>
                 <div>
                     <Link to={'/'} className='self-center whitespace-nowrap font-semibold text-xl sm:text-3xl dark:text-white'>
                         <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
@@ -18,7 +18,7 @@ export default function FooterComponent() {
 
 
 
-                <div className='grid grid-cols-2 mt-4 sm:grid-cols-4 gap-5 sm:gap-10'>
+                <div className='grid grid-cols-2 mt-4 sm:grid-cols-4 gap-5 '>
                     <div>
                         <FooterTitle title='About' />
                         <Footer.LinkGroup col>
@@ -98,7 +98,7 @@ export default function FooterComponent() {
                     </div>
                 </div>
             </div>
-            <div className='w-full flex flex-col sm:flex-row justify-between p-5 sm:px-10 items-center gap-5 mt-10'>
+            <div className='w-full flex flex-col sm:flex-row justify-between p-3 sm:px-10 items-center gap-3'>
                 <Footer.Copyright year={new Date().getFullYear()} by="Rehan's Blog" href='#' />
                 <div className='flex gap-5'>
                     <Footer.Icon href='#' icon={BsTwitter} />

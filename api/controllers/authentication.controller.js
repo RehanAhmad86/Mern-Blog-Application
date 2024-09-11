@@ -40,6 +40,7 @@ try{
         return next(errorHandler(404 , 'User not found!'))
     }
     //console.log(validUser)
+
     const comparePassword = bcryptjs.compareSync( password , validUser.password)
     if(!comparePassword){
         return next(errorHandler(404 , 'Invalid Password!'))

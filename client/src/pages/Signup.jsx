@@ -48,7 +48,7 @@ export default function Signup() {
 
   return (
     <div className='flex p-5 mt-5'>
-      <div className='flex flex1 flex-col md:flex-row max-w-6xl mx-auto items-center'>
+      <div className='flex flex1 flex-col md:flex-row max-w-6xl mx-auto items-center gap:8 md:gap-14'>
         <div className='flex-1'>
           <Link to={'/'} className='font-bold text-4xl items-center dark:text-white flex justify-center md:justify-start'>
             <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
@@ -56,7 +56,7 @@ export default function Signup() {
             Blog
           </Link>
           <p className='mt-4 text-sm'>
-            Sign up easily with your email or Google account.
+            Sign up easily with your email and password or Google account.
             Enjoy a seamless experience and start exploring our services today!
           </p>
         </div>
