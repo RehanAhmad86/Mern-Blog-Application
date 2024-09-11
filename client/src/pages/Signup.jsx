@@ -47,8 +47,8 @@ export default function Signup() {
   }
 
   return (
-    <div className='flex p-5 mt-10'>
-      <div className='flex flex-col md:flex-row max-w-6xl mx-auto items-center'>
+    <div className='flex p-5 mt-5'>
+      <div className='flex flex1 flex-col md:flex-row max-w-6xl mx-auto items-center'>
         <div className='flex-1'>
           <Link to={'/'} className='font-bold text-4xl items-center dark:text-white flex justify-center md:justify-start'>
             <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
@@ -61,7 +61,7 @@ export default function Signup() {
           </p>
         </div>
 
-        <div className='flex-1 w-full mt-5'>
+        <div className='flex-1 mt-5 w-full'>
           <form className='flex flex-col gap-4' onSubmit={sendData}>
             <div>
               <Label className='mb-2'>Your username</Label>
@@ -104,7 +104,7 @@ export default function Signup() {
             <Link to={'/signin'} className='text-blue-700'>Sign in</Link>
           </div>
           { error &&
-          <Alert color="failure" className='mt-2 h-auto'>{error}</Alert>
+          <Alert color="failure" className='mt-2 break-words whitespace-normal'>{error}</Alert>
           }
         </div>
       </div>

@@ -1,0 +1,114 @@
+import { Footer, FooterDivider, FooterTitle } from 'flowbite-react'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { BsFacebook, BsGithub, BsInstagram, BsDribbble, BsTwitter, BsThreads } from 'react-icons/bs'
+
+export default function FooterComponent() {
+    return (
+        <Footer container className='border border-t-8 border-teal-400 flex flex-col'>
+            <div className='w-full flex justify-around items-center max-w-7xl mx-auto gap-10 mb-5 p-5 sm:px-10'>
+                <div>
+                    <Link to={'/'} className='self-center whitespace-nowrap font-semibold text-xl sm:text-3xl dark:text-white'>
+                        <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+                                        rounded-lg text-white'>Rehan
+                        </span>
+                        Blog
+                    </Link>
+                </div>
+
+
+
+                <div className='grid grid-cols-2 mt-4 sm:grid-cols-4 gap-5 sm:gap-10'>
+                    <div>
+                        <FooterTitle title='About' />
+                        <Footer.LinkGroup col>
+                            <Footer.Link
+                                href='http://www.100jsprojects.com'
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
+                                100 JS Projects
+                            </Footer.Link>
+                            <Footer.Link
+                                href='/about'
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
+                                About
+                            </Footer.Link>
+                        </Footer.LinkGroup>
+                    </div>
+
+                    <div>
+                        <FooterTitle title='Follow Us' />
+                        <Footer.LinkGroup col>
+                            <Footer.Link
+                                href='https://github.com/RehanAhmad86'
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
+                                Github
+                            </Footer.Link>
+                            <Footer.Link
+                                href='#'
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
+                                Discord
+                            </Footer.Link>
+                        </Footer.LinkGroup>
+                    </div>
+                    <div>
+                        <FooterTitle title='Legal' />
+                        <Footer.LinkGroup col>
+                            <Footer.Link
+                                href='#'
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
+                                Privacy Policy
+                            </Footer.Link>
+                            <Footer.Link
+                                href='#'
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
+                                Terms &amp; Conditions
+                            </Footer.Link>
+                        </Footer.LinkGroup>
+                    </div>
+                    <div>
+                        <FooterTitle title='Customer Support' />
+                        <Footer.LinkGroup col>
+                            <Footer.Link
+                                href='#'
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
+                                FAQ's
+                            </Footer.Link>
+                            <Footer.Link
+                                href='#'
+                                target='_blank'
+                                rel='noopener noreferrer'
+                            >
+                                Help Center
+                            </Footer.Link>
+                        </Footer.LinkGroup>
+                    </div>
+                </div>
+            </div>
+            <div className='w-full flex flex-col sm:flex-row justify-between p-5 sm:px-10 items-center gap-5 mt-10'>
+                <Footer.Copyright year={new Date().getFullYear()} by="Rehan's Blog" href='#' />
+                <div className='flex gap-5'>
+                    <Footer.Icon href='#' icon={BsTwitter} />
+                    <Footer.Icon href='#' icon={BsFacebook} />
+                    <Footer.Icon href='https://github.com/RehanAhmad86' icon={BsGithub} />
+                    <Footer.Icon href='#' icon={BsInstagram} />
+                    <Footer.Icon href='#' icon={BsDribbble} />
+                    <Footer.Icon href='#' icon={BsThreads} />
+                </div>
+            </div>
+        </Footer>
+    )
+}
