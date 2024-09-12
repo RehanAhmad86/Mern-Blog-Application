@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Link , useNavigate} from 'react-router-dom'
 import { signInStart , signInSuccess , signInFailure } from '../redux/User/userSlice'
 import { useDispatch , useSelector } from 'react-redux'
+import Auth from '../components/Auth'
 
 export default function Signin() {
   const [formData, setFormData] = useState({})
@@ -46,7 +47,7 @@ export default function Signin() {
   }
 
   return (
-    <div className='flex p-5 mt-5'>
+    <div className='flex pb-16 mt-5'>
       <div className='flex flex1 flex-col md:flex-row max-w-6xl mx-auto items-center gap:8 md:gap-14'>
         <div className='flex-1'>
           <Link to={'/'} className='font-bold text-4xl items-center dark:text-white flex justify-center md:justify-start'>
@@ -85,6 +86,7 @@ export default function Signin() {
                 ) 
                 : 'Sign In' }
               </Button>
+              <Auth/>
             </div>
           </form>
           <div className='flex gap-2 text-sm mt-3'>

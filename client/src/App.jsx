@@ -9,7 +9,6 @@ import Projects from './pages/Projects.jsx'
 import Header from './components/Header.jsx'
 import FooterComponent from './components/Footer.jsx'
 
-
 export default function App() {
   return (
     <BrowserRouter>
