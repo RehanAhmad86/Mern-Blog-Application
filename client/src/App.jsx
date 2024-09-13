@@ -8,6 +8,7 @@ import About from './pages/About.jsx'
 import Projects from './pages/Projects.jsx'
 import Header from './components/Header.jsx'
 import FooterComponent from './components/Footer.jsx'
+import PrivateComponent from './components/PrivateComponent.jsx'
 
 export default function App() {
   return (
@@ -15,7 +16,9 @@ export default function App() {
     <Header/>
     <Routes>
         <Route path='/' element={<Home/>}/>
+        <Route element={<PrivateComponent/>}>
         <Route path='/dashboard' element={<Dashboard/>}/>
+        </Route>
         <Route path='/signin' element={<Signin/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/about' element={<About/>}/>

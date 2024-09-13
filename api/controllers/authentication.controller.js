@@ -39,7 +39,7 @@ try{
     if(!validUser){
         return next(errorHandler(404 , 'User not found!'))
     }
-    //console.log(validUser)
+    console.log(validUser)
 
     const comparePassword = bcryptjs.compareSync( password , validUser.password)
     if(!comparePassword){
@@ -63,9 +63,11 @@ try{
 
 export const google = async ( request , response , next ) => {
     const { email , name ,  PhotoUrl } = request.body
+    //console.log({email , name ,  PhotoUrl})
     try{
         const user = await User.findOne({email})
         if(user){
+            //console.log('user is ----' , user)
             const token = jwt.sign({id: user._id} , process.env.JWT_SECRET_KEY)
             const { password: pass , ...rest } = user._doc
             response.status(200).cookie( 'token' , token , {
@@ -81,6 +83,9 @@ export const google = async ( request , response , next ) => {
                 photoUrl: PhotoUrl ,
                 password: hashedPassword
             })
+            //console.log({newUser})
+            //console.log({"data 1 is " : username , email , photoUrl , PhotoUrl , password })
+            //console.log({"data 2 is " : name , email , photoUrl , hashedPassword })
             await newUser.save()
             const token = jwt.sign({id:newUser._id} , process.env.JWT_SECRET_KEY)
             const { password: pass , ...rest } = newUser._doc
