@@ -47,7 +47,7 @@ export default function Signin() {
   }
 
   return (
-    <div className='flex pb-16 mt-5'>
+    <div className='flex p-3 pb-16 mt-5'>
       <div className='flex flex1 flex-col md:flex-row max-w-6xl mx-auto items-center gap:8 md:gap-14'>
         <div className='flex-1'>
           <Link to={'/'} className='font-bold text-4xl items-center dark:text-white flex justify-center md:justify-start'>

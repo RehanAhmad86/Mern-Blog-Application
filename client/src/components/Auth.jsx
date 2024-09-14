@@ -81,8 +81,8 @@ export default function Auth() {
             });
 
             if (result.ok) {
-                const data = await result.json(); // Assuming your API returns user data
-                dispatch(signInSuccess(data)); // Pass the user data to the Redux action
+                const data = await result.json();
+                dispatch(signInSuccess(data)); 
                 navigate('/');
             } else {
                 console.error('Failed to authenticate with Google');

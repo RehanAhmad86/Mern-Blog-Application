@@ -10,7 +10,7 @@ export default function ProfileSidebar() {
   useEffect(()=> {
     const urlParams = new URLSearchParams(location.search)
     const getSearchParams = urlParams.get('tab')
-    console.log(getSearchParams)
+    //console.log(getSearchParams)
       if(getSearchParams){
         setTab(getSearchParams)
       }
@@ -19,7 +19,7 @@ export default function ProfileSidebar() {
    <Sidebar className='w-full md:w-56'>
       <Sidebar.ItemGroup>
         <Link to={'/dashboard?tab=profile'}>
-        <Sidebar.Item active={tab === 'profile'} icon={HiUser} label="User" labelColor='dark' >
+        <Sidebar.Item active={tab === 'profile'} icon={HiUser} label="User" labelColor='dark' as='div'>
           Profile
         </Sidebar.Item>
         </Link>
