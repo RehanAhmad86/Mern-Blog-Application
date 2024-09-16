@@ -8,10 +8,10 @@ export const userController1 = async (request, response, next) => {
 
 export const updateUser = async (request, response, next) => {
    
-    // response.json("Update User api")
-    // console.log(request.user)
-    // console.log("user" , request.user.id)
-    // console.log("user param" , request.params.id)
+    //response.json("Update User api")
+    console.log(request.user)
+    console.log("user" , request.user.id)
+    console.log("user param" , request.params.id)
 
     if (request.user.id !== request.params.id) {
         return next(errorHandler(403, "Update Your own account not others"))

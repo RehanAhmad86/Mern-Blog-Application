@@ -3,6 +3,8 @@ import { errorHandler } from "./errorHandler.js";
 
 export const verifyUser = async ( request , response , next ) => {
     const token = request.cookies.token
+    console.log('token from cookies:' ,token)
+    
     if(!token){
         return next(errorHandler(401 , 'Unauthorized'))
     }
@@ -15,3 +17,5 @@ export const verifyUser = async ( request , response , next ) => {
         next()
     })
 }
+
+

@@ -47,7 +47,8 @@ try{
     }
     
     const token = jwt.sign({id: validUser._id} , process.env.JWT_SECRET_KEY)
-    const {  password: pass , ...rest} = validUser._doc
+    const {  password: pass , ...rest} = validUser._doc;
+    console.log(validUser._id)
     
 
     response.status(200).cookie( 'token' , token , {
@@ -60,6 +61,7 @@ try{
     }
 
 }
+
 
 export const google = async ( request , response , next ) => {
     const { email , name ,  PhotoUrl } = request.body

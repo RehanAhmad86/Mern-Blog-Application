@@ -6,6 +6,7 @@ import { verifyUser } from '../errorHandler/verifyUser.js'
 const router = express.Router()
 
 router.get( '/test' , userController1 )
-router.put( '/update/:id' , verifyUser , updateUser)
+router.put('/update/:id', verifyUser, updateUser);
+
 
 export default router
