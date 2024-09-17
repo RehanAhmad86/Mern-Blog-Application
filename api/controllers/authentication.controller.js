@@ -51,8 +51,9 @@ try{
     console.log(validUser._id)
     
 
-    response.status(200).cookie( 'token' , token , {
+    response.status(200).cookie( 'access_token' , token , {
         httpOnly: true,
+        sameSite: 'None',
     }).json(rest)
 
 }
@@ -72,8 +73,9 @@ export const google = async ( request , response , next ) => {
             //console.log('user is ----' , user)
             const token = jwt.sign({id: user._id} , process.env.JWT_SECRET_KEY)
             const { password: pass , ...rest } = user._doc
-            response.status(200).cookie( 'token' , token , {
-                httpOnly: true
+            response.status(200).cookie( 'access_token' , token , {
+                httpOnly: true,
+                sameSite: 'None',
             }).json(rest)
         }
         else{
@@ -91,8 +93,9 @@ export const google = async ( request , response , next ) => {
             await newUser.save()
             const token = jwt.sign({id:newUser._id} , process.env.JWT_SECRET_KEY)
             const { password: pass , ...rest } = newUser._doc
-            response.status(200).cookie('token' , token , {
-                httpOnly: true
+            response.status(200).cookie('access_token' , token , {
+                httpOnly: true,
+                sameSite: 'None',
             }).json(rest)
         }
     }

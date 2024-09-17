@@ -7,13 +7,13 @@ export const userController1 = async (request, response, next) => {
 }
 
 export const updateUser = async (request, response, next) => {
-   
+
     //response.json("Update User api")
     console.log(request.user)
-    console.log("user" , request.user.id)
-    console.log("user param" , request.params.id)
+    console.log("user", request.user.id)
+    console.log("user param", request.params.id)
 
-    if (request.user.id !== request.params.id) {
+    if (String(request.user.id) !== String(request.params.id)) {
         return next(errorHandler(403, "Update Your own account not others"))
     }
     if (request.body.password) {
@@ -43,12 +43,13 @@ export const updateUser = async (request, response, next) => {
                 email: request.body.email,
                 password: request.body.password,
                 photoUrl: request.body.photoUrl,
+
             }
-        },{new: true},
-    )
-    console.log(updatedUser)
-    const { password: pass , ...rest } = updatedUser._doc
-    response.status(200).json(rest)
+        }, { new: true },
+        )
+        console.log(updatedUser)
+        const { password: pass, ...rest } = updatedUser._doc
+        response.status(200).json(rest)
     }
-    catch(error){ next(error) }
+    catch (error) { next(error) }
 }

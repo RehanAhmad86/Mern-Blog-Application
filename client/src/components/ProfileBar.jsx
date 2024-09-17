@@ -64,6 +64,7 @@ export default function ProfileBar() {
     )
   }
   console.log(formData)
+    
   const handleFormData = (e) => {
     setFormData({
       ...formData,
@@ -85,12 +86,13 @@ export default function ProfileBar() {
     }
     try {
       dispatch(updateUserStart())
-      const result = await fetch(`/user/update/${currentUser._id}`, {
+      const result = await fetch(`http://localhost:5000/user/update/${currentUser._id}`, {
         method: 'PUT',
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        credentials: "include"
       })
       const data = await result.json()
       console.log(currentUser._id)
@@ -103,7 +105,7 @@ export default function ProfileBar() {
         setUpdateSuccess("User is updated Successfully!")
       }
     } catch (error) {
-      console.log(error.message)
+      dispatch(updateUserFailure(error.message))
       setUpdateError(error.message)
     }
   }
