@@ -1,16 +1,19 @@
-import { Alert, Button, TextInput } from 'flowbite-react'
+import { Alert, Button, Modal, TextInput } from 'flowbite-react'
 import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { app } from '../firebaseGoogle.js'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/User/userSlice.js'
+import { updateUserStart, updateUserSuccess, updateUserFailure ,
+         deleteUserStart , deleteUserSuccess , deleteUserFailure
+} from '../redux/User/userSlice.js'
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 
 export default function ProfileBar() {
   const dispatch = useDispatch()
-  const { currentUser } = useSelector(state => state.user)
+  const { currentUser , error } = useSelector(state => state.user)
   const [image, setImage] = useState(null)
   const [imageUrl, setImageUrl] = useState(null)
   const [uploadProgress, setUploadProgress] = useState()
@@ -20,6 +23,7 @@ export default function ProfileBar() {
   const imageRef = useRef()
   const [updateSuccess, setUpdateSuccess] = useState(null)
   const [updateError, setUpdateError] = useState(null)
+  const [ modal , setModal ] = useState(null)
 
   const handleChange = (e) => {
     const imageFile = e.target.files[0]
@@ -110,6 +114,26 @@ export default function ProfileBar() {
     }
   }
 
+  const deleteUser = async () => {
+        setModal(false)
+        try{
+          dispatch(deleteUserStart())
+          const result = await fetch(`http://localhost:5000/user/delete/${currentUser._id}`, {
+            method: "DELETE",
+            credentials: "include"
+          })
+          console.log(currentUser._id)
+          const data = await result.json()
+          if(!result.ok){
+            dispatch(deleteUserFailure(data.message))
+            return
+          }
+          dispatch(deleteUserSuccess(data))
+        }catch(error){
+          dispatch(deleteUserFailure(error.message))
+        }
+  }
+
 
   return (
     <div className='max-w-lg w-full mx-auto p-3 mt-3'>
@@ -165,7 +189,7 @@ export default function ProfileBar() {
         <Button type='submit' gradientDuoTone='purpleToBlue' >Update</Button>
       </form>
       <div className='text-red-500 text-sm flex justify-between mt-3 px-2'>
-        <span>Delete Account</span>
+        <span onClick={()=>setModal(true)} className='cursor-pointer'>Delete Account</span>
         <span>Sign Out</span>
       </div>
       {
@@ -182,6 +206,37 @@ export default function ProfileBar() {
           </Alert>
         )
       }
+      {
+        error && (
+          <Alert color='failure' className='mt-5'>
+            {error}
+          </Alert>
+        )
+      }
+      
+      {
+        modal && (
+          <Modal show={modal} onClose={()=>{setModal(false)}} popup size='md'>
+            <Modal.Header/>
+            <Modal.Body>
+              <div className='text-center'>
+                <HiOutlineExclamationCircle
+                className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-5 mx-auto border-none 
+                outline-none focus:outline-none'
+                />
+                <h3 className='text-lg mb-5 text-gray-500 dark:text-gray-400'>Do you want to Delete Your account?</h3>
+              </div>
+              <div className='flex justify-center gap-5'>
+                <Button onClick={deleteUser} color='failure'>Yes, Delete</Button>
+                <Button onClick={()=>{setModal(false)}}>No, Cancel</Button>
+              </div>
+            </Modal.Body>
+          </Modal>
+        )
+      }
+
+
+
     </div>
   )
 }

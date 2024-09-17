@@ -53,7 +53,6 @@ try{
 
     response.status(200).cookie( 'access_token' , token , {
         httpOnly: true,
-        sameSite: 'None',
     }).json(rest)
 
 }
@@ -75,7 +74,6 @@ export const google = async ( request , response , next ) => {
             const { password: pass , ...rest } = user._doc
             response.status(200).cookie( 'access_token' , token , {
                 httpOnly: true,
-                sameSite: 'None',
             }).json(rest)
         }
         else{
@@ -95,7 +93,6 @@ export const google = async ( request , response , next ) => {
             const { password: pass , ...rest } = newUser._doc
             response.status(200).cookie('access_token' , token , {
                 httpOnly: true,
-                sameSite: 'None',
             }).json(rest)
         }
     }
