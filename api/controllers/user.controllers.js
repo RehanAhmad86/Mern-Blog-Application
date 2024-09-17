@@ -1,6 +1,7 @@
 import { errorHandler } from "../errorHandler/errorHandler.js"
 import bcryptjs from 'bcryptjs'
 import User from '../models/user.model.js'
+import { request, response } from "express"
 
 export const userController1 = async (request, response, next) => {
     response.json({ message: "Route is created" })
@@ -66,3 +67,12 @@ export const deleteUser = async ( request , response , next ) => {
         response.status(200).json('User has been deleted!')
     }catch(error){ next(error)}
 } 
+
+
+export const signOut = async ( request , response , next ) => {
+    try{
+    response.clearCookie('access_token').status(200).json('User Signed out successfully!')
+    }catch(error){
+        next(error)
+    }
+}

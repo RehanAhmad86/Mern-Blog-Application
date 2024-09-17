@@ -6,7 +6,7 @@ import { app } from '../firebaseGoogle.js'
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { updateUserStart, updateUserSuccess, updateUserFailure ,
-         deleteUserStart , deleteUserSuccess , deleteUserFailure
+         deleteUserStart , deleteUserSuccess , deleteUserFailure , signOutSucces
 } from '../redux/User/userSlice.js'
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
@@ -134,6 +134,21 @@ export default function ProfileBar() {
         }
   }
 
+  const signOut = async () => {
+      try{
+        const result = await fetch('http://localhost:5000/user/signout' , {
+          method: "POST",
+        })
+        const data = await result.json()
+        if(!result.ok){
+          console.log(data.message)
+        }
+        dispatch(signOutSucces(data))
+      }catch(error){
+        console.log(error.message)
+      }
+  }
+
 
   return (
     <div className='max-w-lg w-full mx-auto p-3 mt-3'>
@@ -190,7 +205,7 @@ export default function ProfileBar() {
       </form>
       <div className='text-red-500 text-sm flex justify-between mt-3 px-2'>
         <span onClick={()=>setModal(true)} className='cursor-pointer'>Delete Account</span>
-        <span>Sign Out</span>
+        <span onClick={signOut} className='cursor-pointer'>Sign Out</span>
       </div>
       {
         updateSuccess && (
@@ -234,9 +249,6 @@ export default function ProfileBar() {
           </Modal>
         )
       }
-
-
-
     </div>
   )
 }
