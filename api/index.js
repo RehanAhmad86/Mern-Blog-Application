@@ -5,6 +5,7 @@ import router from './routes/user.routes.js'
 import authRouter from './routes/authentication.routes.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import postRouter from './routes/post.route.js'
 
 
 dotenv.config()
@@ -31,6 +32,7 @@ app.listen(port, () => {
 
 
 app.use( '/user' , router )
+app.use( '/post' , postRouter )
 app.use( '/api/auth' , authRouter )
 
 
