@@ -46,7 +46,7 @@ try{
         return next(errorHandler(404 , 'Invalid Password!'))
     }
     
-    const token = jwt.sign({id: validUser._id} , process.env.JWT_SECRET_KEY)
+    const token = jwt.sign({id: validUser._id , isAdmin: validUser.isAdmin} , process.env.JWT_SECRET_KEY)
     const {  password: pass , ...rest} = validUser._doc;
     console.log(validUser._id)
     
@@ -70,7 +70,7 @@ export const google = async ( request , response , next ) => {
         const user = await User.findOne({email})
         if(user){
             //console.log('user is ----' , user)
-            const token = jwt.sign({id: user._id} , process.env.JWT_SECRET_KEY)
+            const token = jwt.sign({id: user._id , isAdmin: user.isAdmin} , process.env.JWT_SECRET_KEY)
             const { password: pass , ...rest } = user._doc
             response.status(200).cookie( 'access_token' , token , {
                 httpOnly: true,
@@ -89,7 +89,7 @@ export const google = async ( request , response , next ) => {
             //console.log({"data 1 is " : username , email , photoUrl , PhotoUrl , password })
             //console.log({"data 2 is " : name , email , photoUrl , hashedPassword })
             await newUser.save()
-            const token = jwt.sign({id:newUser._id} , process.env.JWT_SECRET_KEY)
+            const token = jwt.sign({id:newUser._id , isAdmin: newUser.isAdmin} , process.env.JWT_SECRET_KEY)
             const { password: pass , ...rest } = newUser._doc
             response.status(200).cookie('access_token' , token , {
                 httpOnly: true,
