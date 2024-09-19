@@ -5,12 +5,44 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { app } from '../firebaseGoogle';
 import { CircularProgressbar } from 'react-circular-progressbar';
+import { useNavigate } from 'react-router-dom'
 
 export default function CreatePost() {
   const [image, setImage] = useState(null)
   const [imageUploadProgress, setImageUploadProgress] = useState(null)
   const [imageUploadError, setImageUploadError] = useState(null)
   const [formData, setFormData] = useState({})
+  const navigate = useNavigate()
+  const [ postError , setPostError ] = useState(null)
+  //console.log(formData)
+
+  const handlePost = async (e) => {
+    e.preventDefault()
+    try{
+      setPostError(null)
+      const result = await fetch('http://localhost:5000/post/create' , {
+        method: "POST" , 
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData),
+        credentials: "include"
+      })
+      const data = await result.json()
+      if(!result.ok){
+        setPostError(data.message)
+        return
+      }
+      if(result.ok){
+        console.log(formData)
+        setPostError(null)
+        navigate(`/post/${data.slug}`)
+      }
+    }
+    catch(error){
+      setPostError(error.message)
+    }
+  }
 
   const imageUpload = () => {
     if (!image) {
@@ -58,14 +90,15 @@ export default function CreatePost() {
         <div className='flex flex-col sm:flex-row gap-4 mb-5'>
           <TextInput
             type='text' className='flex-1' placeholder='Title' required
-            id='title'
+            id='title' onChange={event=>setFormData({...formData , title: event.target.value})}
           />
-          <Select>
+          <Select
+          onChange={event=>setFormData({...formData , category: event.target.value})}>
             <option value='uncategorized'>Select a category</option>
             <option value='JavaScript'>JavaScript</option>
-            <option value='Reactjs'>React js</option>
-            <option value='Nodejs'>Node js</option>
-            <option value='mongodb'>Mongo DB</option>
+            <option value='ReactJs'>React js</option>
+            <option value='NodeJs'>Node js</option>
+            <option value='MongoDB'>Mongo DB</option>
           </Select>
         </div>
         <div className='flex gap-4 items-center justify-between p-3 border-2
@@ -101,9 +134,14 @@ export default function CreatePost() {
           )
         }
 
-        <ReactQuill theme="snow" className='h-72 mb-14' required />
-        <Button type='submit' className='w-full' gradientDuoTone='purpleToPink'>Post</Button>
+        <ReactQuill theme="snow" className='h-72 mb-14' required
+        onChange={(value)=>{setFormData({...formData , content: value})}} />
+        <Button onClick={handlePost} type='submit' className='w-full' gradientDuoTone='purpleToPink'>Post</Button>
       </form>
+      {
+        postError &&
+      <Alert className='mt-5' color='failure'>{postError}</Alert>
+      }
 
     </div>
   )
