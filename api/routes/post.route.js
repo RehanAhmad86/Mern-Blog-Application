@@ -1,9 +1,10 @@
 import express from 'express'
 import { verifyUser } from '../errorHandler/verifyUser.js'
-import { createPost } from '../controllers/post.controller.js'
+import { createPost , getPosts } from '../controllers/post.controller.js'
 
-const router = express.Router()
+const postRouter = express.Router()
 
-const postRouter = router.post( '/create' , verifyUser , createPost)
+postRouter.post( '/create' , verifyUser , createPost)
+postRouter.get( '/getposts' , getPosts)
 
 export default postRouter
