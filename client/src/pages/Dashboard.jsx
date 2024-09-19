@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import ProfileSidebar from '../components/ProfileSidebar'
 import ProfileBar from '../components/ProfileBar'
+import PostDashBoard from '../components/PostDashBoard'
 
 export default function Dashboard() {
   const location = useLocation()
@@ -9,7 +10,7 @@ export default function Dashboard() {
   useEffect(()=> {
     const urlParams = new URLSearchParams(location.search)
     const getSearchParams = urlParams.get('tab')
-    console.log(getSearchParams)
+    //console.log(getSearchParams)
       if(getSearchParams){
         setTab(getSearchParams)
       }
@@ -21,7 +22,8 @@ export default function Dashboard() {
       </div>
       <div className='w-full'>
         { tab === 'profile' && <ProfileBar/> }
-      </div>
+        { tab === 'posts' && <PostDashBoard/> }
+    </div>
     </div>
   )
 }
