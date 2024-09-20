@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Table } from 'flowbite-react'
+import { Button, Table } from 'flowbite-react'
 import { Link } from 'react-router-dom'
 
 export default function PostDashBoard() {
   const [posts, setPosts] = useState([])
   const { currentUser } = useSelector(state => state.user)
+  const [ showMore , setShowMore ] = useState(true)
   useEffect(() => {
     const showPosts = async () => {
       try {
-        const result = await fetch(`http://localhost:5000/post/getposts?${currentUser._id}`, {
+        const result = await fetch(`http://localhost:5000/post/getposts?userId=${currentUser._id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json"
@@ -22,6 +23,9 @@ export default function PostDashBoard() {
         }
         if (result.ok) {
           setPosts(data.posts)
+          if(data.posts.length < 9){
+            setShowMore(false)
+          }
         }
       } catch (error) {
         console.log(error.message)
@@ -33,6 +37,36 @@ export default function PostDashBoard() {
 
   }, [currentUser._id])
   console.log(posts)
+
+  const handleShowMore = async () => {
+    const startIndex = posts.length
+    try{
+      const result = await fetch(`http://localhost:5000/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}` , {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        
+      })
+      const data = await result.json()
+      if (data.posts.length === 0) {
+        setShowMore(false)
+      }
+      if(!result.ok){
+        console.log("Error in showing more posts!")
+        return
+      }
+      if(result.ok){
+        setPosts(posts=>[...posts ,  ...data.posts])
+        if(data.posts.length < 9 ){
+          setShowMore(false)
+        }
+      }
+    }catch(error){console.log(error.message)
+    }
+
+  }
+
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto
     p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300
@@ -41,8 +75,8 @@ export default function PostDashBoard() {
         currentUser.isAdmin && posts.length > 0 ? (
           <>
             <Table>
-              <Table.Head>
-                <Table.HeadCell>
+              <Table.Head className='text-center font-medium'>
+                <Table.HeadCell className='whitespace-nowrap'>
                   Updated At
                 </Table.HeadCell>
                 <Table.HeadCell>
@@ -74,6 +108,7 @@ export default function PostDashBoard() {
                           <img
                             src={post.imageUrl}
                             className='w-20 h-10 object-cover'
+                            alt={post.title}
                           />
                         </Link>
                       </Table.Cell>
@@ -99,8 +134,14 @@ export default function PostDashBoard() {
             </Table>
           </>
         ) : (
-          <p>You do not have any posts yet!</p>
-        )
+          <p className='text-center text-lg flex items-center justify-center'>You do not have any posts yet!</p>
+        ) 
+      }
+      {
+        showMore && posts.length > 0 &&
+      <div className='text-center py-3'>
+      <button onClick={handleShowMore} className='text-teal-500 text-sm'>Show More</button>
+      </div>
       }
     </div>
   )
