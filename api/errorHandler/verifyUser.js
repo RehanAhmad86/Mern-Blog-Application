@@ -14,6 +14,7 @@ export const verifyUser = async ( request , response , next ) => {
             return next(errorHandler( 401 , 'Unauthorized'))
         }
         request.user = user
+        console.log(request.user)
         next()
     })
 }

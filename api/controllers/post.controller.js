@@ -1,4 +1,3 @@
-import { request } from "express"
 import { errorHandler } from "../errorHandler/errorHandler.js"
 import Post from "../models/post.model.js"
 
@@ -37,7 +36,6 @@ export const getPosts = async (request, response, next) => {
             })
         }).sort({ updatedAt: sortPost }).skip(startIndex).limit(limit)
 
-
         const totalPost = await Post.countDocuments()
         const date = new Date()
         const lastMonth = new Date(
@@ -54,7 +52,6 @@ export const getPosts = async (request, response, next) => {
                 }
             }
         )
-
         response.status(200).json({
             posts,
             totalPost,
@@ -64,4 +61,15 @@ export const getPosts = async (request, response, next) => {
         next(error)
     }
 
+}
+
+export const deletePosts = async ( request , response , next ) => {
+    console.log("User id from token is : " , request.user.id)
+    if(request.user.id !== request.params.userId){
+        return next(errorHandler(403 , "Delete your post not others!"))
+    }
+    try{
+        const deletePost = await Post.findByIdAndDelete(request.params.id)
+        response.status(200).json("Post is deleted!")
+    }catch(error){next(error)}
 }
