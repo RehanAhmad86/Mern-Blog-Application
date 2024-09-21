@@ -73,3 +73,30 @@ export const deletePosts = async ( request , response , next ) => {
         response.status(200).json("Post is deleted!")
     }catch(error){next(error)}
 }
+
+
+export const updatePost = async ( request , response , next ) => {
+    if(request.user.id !== request.params.userId){
+        return next(errorHandler(403 , "Update your post not others!"))
+    }
+    try{
+        const slug = request.body.title.split(" ").join('-').toLowerCase().replace(/[^a-zA-Z0-9\-]/g, '') 
+        const updateUserPost = await Post.findByIdAndUpdate(request.params.id , {
+            $set:{
+                title: request.body.title,
+                content: request.body.content,
+                category: request.body.category,
+                imageUrl: request.body.imageUrl,
+                slug
+            }
+        },{ new: true }
+    )
+        response.status(200).json(
+            // "Post is updated!" , updateUserPost
+        {
+                message: "Post is updated!",
+            post: updateUserPost
+        }
+        )
+    }catch(error){next(error)}
+}
