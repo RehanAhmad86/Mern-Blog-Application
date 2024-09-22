@@ -76,3 +76,38 @@ export const signOut = async ( request , response , next ) => {
         next(error)
     }
 }
+
+export const getUser = async ( request , response , next ) => {
+    if(!request.user.isAdmin){
+        return next(errorHandler( 403 , 'Only Admin can view users account'))
+    }
+    try{
+        const startIndex = parseInt(request.query.startIndex) || 0
+        const limit = parseInt(request.query.limit) || 9
+        const sort =  request.query.order === 'asc' ? 1 : -1  
+
+        const getUsers = User.find().sort({ createdAt : sort}).skip(startIndex).limit(limit)
+        const allUsers = await getUsers.map((user)=>{
+            const { password: pass , ...rest} = user._doc
+            return rest
+        })
+
+            const date = new Date()
+            const dateOneMonthAgo = new Date(
+                date.getFullYear(),
+                date.getMonth() - 1 ,
+                date.getDate()
+            )
+            const lastMonthUsers = await User.countDocuments({
+                createdAt:{ $gte : dateOneMonthAgo}
+            })
+            response.status(200).json(
+                {
+                    users: allUsers,
+                    totalUsers: getUsers,
+                    lastMonth: lastMonthUsers
+                }
+            )
+
+    }catch(error){next(error)}
+}
