@@ -12,6 +12,7 @@ import PrivateComponent from './components/PrivateComponent.jsx'
 import CreatePost from './components/CreatePost.jsx'
 import Admin from './components/Admin.jsx'
 import UpdatePost from './pages/updatePost.jsx'
+import Posts from './pages/posts.jsx'
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/about' element={<About/>}/>
         <Route path='/projects' element={<Projects/>}/>
+        <Route path='/post/:slug' element={<Posts/>}/>
         <Route element={<Admin/>}>
           <Route path='/create-post' element={<CreatePost/>}/>
           <Route path='/update-post/:postId' element={<UpdatePost/>}/>

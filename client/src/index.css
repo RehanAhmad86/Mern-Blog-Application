@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    height: 100vh;
+}
+
+.postStyling p{
+    margin-bottom: 0.5 rem;
+}
+.postStyling h1{
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: serif;
+    margin: 1.5rem 0;
+}
+.postStyling h1{
+    font-size: 1.3rem;
+    font-family: serif;
+    margin: 1.3rem 0;
+}
+.postStyling a{
+    color: rgb(73 , 149 , 149);
+    text-decoration: none;
+}
+.postStyling a{
+    color: rgb(228, 37, 37);
+    text-decoration: none;
+}
+.dark .postStyling a:hover{
+    text-decoration: underline;
+}
