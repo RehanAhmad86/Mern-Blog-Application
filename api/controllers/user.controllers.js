@@ -86,11 +86,14 @@ export const getUser = async ( request , response , next ) => {
         const limit = parseInt(request.query.limit) || 9
         const sort =  request.query.order === 'asc' ? 1 : -1  
 
-        const getUsers = User.find().sort({ createdAt : sort}).skip(startIndex).limit(limit)
-        const allUsers = await getUsers.map((user)=>{
-            const { password: pass , ...rest} = user._doc
-            return rest
-        })
+        const getUsers = await User.find().sort({ createdAt : sort}).skip(startIndex).limit(limit)
+        
+        console.log("getUsers" , getUsers)
+        const allUsers = getUsers.map((user) => {
+            const { password: pass, ...rest } = user._doc;
+            console.log("rest is " , rest)
+            return rest;
+          });
 
             const date = new Date()
             const dateOneMonthAgo = new Date(
@@ -98,13 +101,14 @@ export const getUser = async ( request , response , next ) => {
                 date.getMonth() - 1 ,
                 date.getDate()
             )
+            const totalUsers = await User.countDocuments()
             const lastMonthUsers = await User.countDocuments({
                 createdAt:{ $gte : dateOneMonthAgo}
             })
             response.status(200).json(
                 {
                     users: allUsers,
-                    totalUsers: getUsers,
+                    totalUsers,
                     lastMonth: lastMonthUsers
                 }
             )
