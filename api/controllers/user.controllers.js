@@ -1,7 +1,6 @@
 import { errorHandler } from "../errorHandler/errorHandler.js"
 import bcryptjs from 'bcryptjs'
 import User from '../models/user.model.js'
-import { request, response } from "express"
 
 export const userController1 = async (request, response, next) => {
     response.json({ message: "Route is created" })
@@ -56,7 +55,7 @@ export const updateUser = async (request, response, next) => {
 }
 
 export const deleteUser = async ( request , response , next ) => {
-    if(String(request.user.id) !== String(request.params.id)){
+    if( !request.user.isAdmin &&   String(request.user.id) !== String(request.params.id)){
         return next(errorHandler(403 , 'Delete your own account!'))
     }
     console.log(request.user.id)

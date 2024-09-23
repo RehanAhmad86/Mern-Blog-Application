@@ -9,6 +9,7 @@ export default function UserDashBoard() {
     const { currentUser } = useSelector(state => state.user)
     const [showMore, setShowMore] = useState(true)
     const [modal, setModal] = useState(null)
+    const [deleteUsers, setDeleteUsers] = useState(null)
     useEffect(() => {
         const showUser = async () => {
             try {
@@ -61,16 +62,34 @@ export default function UserDashBoard() {
             }
             if (result.ok) {
                 setUser(users => [...users, ...data.users])
-                if (data.users.length <9) {
+                if (data.users.length < 9) {
                     setShowMore(false)
                 }
             }
         } catch (error) {
             console.log(error.message)
         }
-
     }
-
+    const deleteUser = async (userId) => {
+        setModal(false)
+        try {
+            const result = await fetch(`http://localhost:5000/user/delete/${userId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            })
+            const data = await result.json()
+            if (result.ok) {
+                setUser(users => users.filter(user => user._id !== deleteUsers))
+            }
+            if (!result.ok) {
+                console.log(data.message)
+                return
+            }
+        } catch (error) { console.log(error.message) }
+    }
     return (
         <div className='table-auto overflow-x-scroll md:mx-auto
     p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300
@@ -101,14 +120,14 @@ export default function UserDashBoard() {
                             </Table.Head>
                             {
                                 User.map((user) => (
-                                    <Table.Body className='divide-y text-center font-medium' 
-                                    key={user._id} >
+                                    <Table.Body className='divide-y text-center font-medium'
+                                        key={user._id} >
                                         <Table.Row className='dark:border-gray-700 dark:bg-gray-800'>
                                             <Table.Cell>
                                                 {new Date(user.createdAt).toLocaleDateString()}
                                             </Table.Cell>
                                             <Table.Cell
-                                            className='flex items-center justify-center'>
+                                                className='flex items-center justify-center'>
                                                 <img
                                                     src={user.photoUrl}
                                                     className='w-10 h-10 rounded-full object-cover'
@@ -117,14 +136,14 @@ export default function UserDashBoard() {
                                             </Table.Cell>
                                             <Table.Cell>{user.username}</Table.Cell>
                                             <Table.Cell>{user.email}</Table.Cell>
-                                                <Table.Cell
+                                            <Table.Cell
                                                 className='text-center flex justify-center relative bottom-3'
-                                                >
-                                                    {user.isAdmin ? 
-                                                <FaCheck className='text-green-500'/> 
-                                            :   <FaTimes className='text-red-500'/>
+                                            >
+                                                {user.isAdmin ?
+                                                    <FaCheck className='text-green-500' />
+                                                    : <FaTimes className='text-red-500' />
                                                 }
-                                                </Table.Cell>
+                                            </Table.Cell>
                                             <Table.Cell>
                                                 <span
                                                     onClick={() => {
@@ -166,7 +185,7 @@ export default function UserDashBoard() {
                                     gradientDuoTone='purpleToPink' outline
                                     onClick={() => {
                                         setModal(false)
-                                        
+                                        deleteUser(deleteUsers)
                                     }}
                                     color='failure'>Yes, Delete</Button>
                                 <Button gradientDuoTone='purpleToBlue' outline onClick={() => { setModal(false) }}>No, Cancel</Button>
