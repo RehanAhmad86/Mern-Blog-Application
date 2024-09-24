@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Spinner , Button } from "flowbite-react";
+import { Spinner, Button } from "flowbite-react";
+import CallToAction from '../components/CallToAction';
 
 export default function Posts() {
     const { slug } = useParams()
@@ -35,7 +36,7 @@ export default function Posts() {
     }, [slug])
 
     if (loading) {
-        return <div  className='flex justify-center items-center min-h-screen' >
+        return <div className='flex justify-center items-center min-h-screen' >
             <Spinner color="purple" size="xl" />
         </div>
     }
@@ -44,30 +45,31 @@ export default function Posts() {
 
     return (
         <main className='min-h-screen flex flex-col max-w-6xl mx-auto p-3'>
-            <h1 
-            className='text-3xl mx-auto p-3 text-center font-serif max-w-2xl mt-5
+            <h1
+                className='text-3xl mx-auto p-3 text-center font-serif max-w-2xl mt-5
             lg:text-4xl'>{post && post.title}
             </h1>
             <Link className='self-center mt-5' to={`/search?category=${post && post.category}`}>
-            <Button color='gray' pill size='sm'>
-                {post && post.category}
-            </Button>
+                <Button color='gray' pill size='sm'>
+                    {post && post.category}
+                </Button>
             </Link>
             <img
-            src={post.imageUrl}
-            alt={post.slug}
-            className='mt-5 max-h-[600px] object-cover w-full p-3'
+                src={post.imageUrl}
+                alt={post.slug}
+                className='mt-5 max-h-[600px] object-cover w-full p-3'
             />
             <div className='flex justify-between p-3 mx-auto w-full text-sm border-b border-gray-400'>
                 <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                 <span>{post && (post.content.length / 1000).toFixed(0)} minute read.</span>
             </div>
 
-            <div dangerouslySetInnerHTML={{__html: post && post.content}}
-            className='max-w-2xl w-full mt-5 p-3 mx-auto postStyling'>
-
+            <div dangerouslySetInnerHTML={{ __html: post && post.content }}
+                className='max-w-2xl w-full mt-5 p-3 mx-auto postStyling'>
             </div>
-
+            <div className='max-w-4xl mx-auto p-5 w-full'>
+               <CallToAction/>
+            </div>
         </main>
     )
 }
