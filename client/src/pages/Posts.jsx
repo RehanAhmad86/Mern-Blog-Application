@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Spinner, Button } from "flowbite-react";
 import CallToAction from '../components/CallToAction';
+import CommentSection from '../components/CommentSection';
 
 export default function Posts() {
     const { slug } = useParams()
@@ -69,6 +70,9 @@ export default function Posts() {
             </div>
             <div className='max-w-4xl mx-auto p-5 w-full'>
                <CallToAction/>
+            </div>
+            <div className='max-w-4xl flex justify-center mt-3 w-full mx-auto p-3'>
+                <CommentSection postId={post._id}/>
             </div>
         </main>
     )
