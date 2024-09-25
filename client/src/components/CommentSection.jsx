@@ -1,11 +1,12 @@
 import { Textarea , Button, Alert } from 'flowbite-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 export default function CommentSection({ postId }) {
     const { currentUser } = useSelector(state => state.user)
     const [ comment , setComment ] = useState('')
+    const [ postComments , setPostComments ] = useState([])
     const [ commentError , setCommentError ] = useState(null)
     const handleComment = async (e)  => {
         e.preventDefault()
@@ -33,6 +34,37 @@ export default function CommentSection({ postId }) {
             setCommentError(error.message)
         }
     }
+
+    useEffect(()=>{
+        const postComments = async() =>{
+            try{
+                const result = await fetch(`http://localhost:5000/comment/getComments/${postId}` , {
+                    method: "GET",
+                    headers:{
+                        "Content-Type": "application/json"
+                    },
+                    credentials: 'include'
+                })
+                const data = await result.json()
+                if(result.ok){
+                    setPostComments(data)
+                    console.log('Fetched comments:', data);
+                }
+                if(!result.ok){
+                    console.log("error in displaying comments" , data.message)
+                }
+            }catch (error) {
+                console.log(error);
+                setCommentError("Failed to load comments");
+            }
+        }
+        postComments()
+    },[postId])
+
+    console.log(postComments)
+
+
+
     return (
         <div className='w-full'>
             {

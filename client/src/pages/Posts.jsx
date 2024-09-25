@@ -42,7 +42,7 @@ export default function Posts() {
         </div>
     }
 
-    console.log(post)
+    //console.log(post)
 
     return (
         <main className='min-h-screen flex flex-col max-w-6xl mx-auto p-3'>
