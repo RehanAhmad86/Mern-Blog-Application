@@ -114,3 +114,15 @@ export const getUser = async ( request , response , next ) => {
 
     }catch(error){next(error)}
 }
+
+
+export const gettingUser = async ( request , response , next ) => {
+    try{
+        const user = await User.findById(request.params.id)
+        if(!user){
+            return next(errorHandler( 401 , 'No user found!'))
+        }
+        const {password: pass , ...rest} = user._doc
+        response.status(200).json(rest)
+    }catch(error){next(error)}
+}
