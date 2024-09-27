@@ -1,7 +1,7 @@
 import { Textarea, Button, Alert } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Comment from './Comment.jsx'
 
 export default function CommentSection({ postId }) {
@@ -9,6 +9,7 @@ export default function CommentSection({ postId }) {
     const [comment, setComment] = useState('')
     const [postComments, setPostComments] = useState([])
     const [commentError, setCommentError] = useState(null)
+    const navigate = useNavigate()
     const handleComment = async (e) => {
         e.preventDefault()
         setCommentError(null)
@@ -27,7 +28,7 @@ export default function CommentSection({ postId }) {
             const data = await result.json()
             if (result.ok) {
                 setComment('')
-                setPostComments([data , ...postComments])
+                setPostComments([data, ...postComments])
                 setCommentError(null)
             }
             if (!result.ok) {
@@ -39,7 +40,7 @@ export default function CommentSection({ postId }) {
     }
 
     useEffect(() => {
-        const postComments = async () => {
+        const fetchComments = async () => {
             try {
                 const result = await fetch(`http://localhost:5000/comment/getComments/${postId}`, {
                     method: "GET",
@@ -51,7 +52,6 @@ export default function CommentSection({ postId }) {
                 const data = await result.json()
                 if (result.ok) {
                     setPostComments(data)
-                    console.log('Fetched comments:', data);
                 }
                 if (!result.ok) {
                     console.log("error in displaying comments", data.message)
@@ -61,13 +61,42 @@ export default function CommentSection({ postId }) {
                 setCommentError("Failed to load comments");
             }
         }
-        postComments()
+        fetchComments()
     }, [postId])
-
-    console.log(postComments)
-
-
-
+    
+    const handleLikes = async (commentId) => {
+        if (!currentUser) {
+            navigate('/signin')
+            return
+        }
+        try {
+            const result = await fetch(`http://localhost:5000/comment/likeComment/${commentId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                credentials: 'include'
+            })
+            const data = await result.json()
+            
+            if (result.ok) {
+                setPostComments(prevComments =>
+                    prevComments.map((comment) => {
+                        if (comment._id === commentId) {
+                            return {
+                                ...comment,
+                                likes: data.likes,
+                                numberOfLikes: data.likes.length
+                            }
+                        }
+                        return comment
+                    })
+                );
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
     return (
         <div className='w-full'>
             {
@@ -124,11 +153,11 @@ export default function CommentSection({ postId }) {
                 </div>
                 )}
             <div>
-            {
-                postComments.map((comment , index ) => (
-                    <Comment comment={comment} key={index}/>
-                ))
-            }
+                {
+                    postComments.map((comment, index) => (
+                        <Comment comment={comment} key={index} onLike={handleLikes} />
+                    ))
+                }
             </div>
 
         </div>
