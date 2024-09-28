@@ -47,3 +47,22 @@ export const likeComment  = async (  request , response  , next ) => {
         response.status(200).json(findComment)
     }catch(error){next(error)}
 }
+
+export const updateComment = async ( request , response , next ) => {
+    try{
+        const editComment = await Comment.findById(request.params.id)
+        if(!editComment){
+            return next(errorHandler( 400 , 'No comment found!'))
+        }
+        if(request.user.id !== editComment.userId){
+            return next(errorHandler(403 , 'You can only update your own Comment!'))
+        }
+        const editedComment = await Comment.findByIdAndUpdate(
+            request.params.id,
+            {
+                content: request.body.content
+            },{new:true}
+        )
+        response.status(200).json(editedComment)
+    }catch(error){next(error)}
+}

@@ -63,7 +63,7 @@ export default function CommentSection({ postId }) {
         }
         fetchComments()
     }, [postId])
-    
+
     const handleLikes = async (commentId) => {
         if (!currentUser) {
             navigate('/signin')
@@ -78,7 +78,7 @@ export default function CommentSection({ postId }) {
                 credentials: 'include'
             })
             const data = await result.json()
-            
+
             if (result.ok) {
                 setPostComments(prevComments =>
                     prevComments.map((comment) => {
@@ -97,6 +97,14 @@ export default function CommentSection({ postId }) {
             console.log(error.message)
         }
     }
+
+    const handelEdit = (updatedComment, editedContent) => {
+        setPostComments(postComments.map((c) => {
+          return  c._id === updatedComment._id ? { ...c, content: editedContent } : c
+        }))
+    }
+
+
     return (
         <div className='w-full'>
             {
@@ -155,7 +163,7 @@ export default function CommentSection({ postId }) {
             <div>
                 {
                     postComments.map((comment, index) => (
-                        <Comment comment={comment} key={index} onLike={handleLikes} />
+                        <Comment comment={comment} key={index} onLike={handleLikes} onEdit={handelEdit} />
                     ))
                 }
             </div>
