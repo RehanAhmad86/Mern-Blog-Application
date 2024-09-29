@@ -4,11 +4,11 @@ import { FaThumbsUp } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { Button, Textarea } from 'flowbite-react';
 
-export default function Comment({ comment, onLike , onEdit }) {
+export default function Comment({ comment, onLike, onEdit , onDelete }) {
     const { currentUser } = useSelector(state => state.user)
     const [user, setuser] = useState({})
     const [isEditing, setIsEditing] = useState(false)
-    const [ editedContent , setEditedContent] = useState(comment.content)
+    const [editedContent, setEditedContent] = useState(comment.content)
     useEffect(() => {
         const getUser = async () => {
             const result = await fetch(`http://localhost:5000/user/${comment.userId}`, {
@@ -34,11 +34,12 @@ export default function Comment({ comment, onLike , onEdit }) {
         setEditedContent(comment.content)
     }
 
+
     const handleSave = async () => {
-        try{
-            const result = await fetch(`http://localhost:5000/comment/updateComment/${comment._id}` , {
-                method:"PUT",
-                headers:{
+        try {
+            const result = await fetch(`http://localhost:5000/comment/updateComment/${comment._id}`, {
+                method: "PUT",
+                headers: {
                     "Content-Type": "application/json"
                 },
                 credentials: 'include',
@@ -47,11 +48,11 @@ export default function Comment({ comment, onLike , onEdit }) {
                 })
             })
             //const data = await result.json()
-            if(result.ok){
+            if (result.ok) {
                 setIsEditing(false)
-                onEdit( comment , editedContent)
+                onEdit(comment, editedContent)
             }
-        }catch(error){console.log(error)}
+        } catch (error) { console.log(error) }
     }
 
     return (
@@ -82,13 +83,13 @@ export default function Comment({ comment, onLike , onEdit }) {
                     isEditing ? (
                         <div className='flex justify-end gap-2 mt-3'>
                             <Button
-                            gradientDuoTone='purpleToPink'
-                            onClick={handleSave}
+                                gradientDuoTone='purpleToPink'
+                                onClick={handleSave}
                             >Save</Button>
                             <Button
-                            gradientDuoTone='purpleToPink'
-                            outline
-                            onClick={()=>setIsEditing(false)}
+                                gradientDuoTone='purpleToPink'
+                                outline
+                                onClick={() => setIsEditing(false)}
                             >Cancel</Button>
                         </div>
                     ) : (
@@ -105,11 +106,18 @@ export default function Comment({ comment, onLike , onEdit }) {
                             </p>
                             {
                                 currentUser && (currentUser.isAdmin || comment.userId === currentUser._id) &&
-                                <button
-                                    onClick={handleEdit}
-                                    className='text-gray-300 hover:text-red-500'
-                                >Edit
-                                </button>
+                                <>
+                                    <button
+                                        onClick={handleEdit}
+                                        className='text-gray-300 hover:text-blue-500'
+                                    >Edit
+                                    </button>
+                                    <button
+                                        onClick={()=>onDelete(comment._id)}
+                                        className='text-gray-300 hover:text-red-500'
+                                    >Delete
+                                    </button>
+                                </>
                             }
                         </div>
                     )

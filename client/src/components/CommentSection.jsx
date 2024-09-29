@@ -3,12 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import Comment from './Comment.jsx'
+import { Modal } from 'flowbite-react'
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 export default function CommentSection({ postId }) {
     const { currentUser } = useSelector(state => state.user)
     const [comment, setComment] = useState('')
     const [postComments, setPostComments] = useState([])
     const [commentError, setCommentError] = useState(null)
+    const [modal, setModal] = useState(false)
+    const [deleteComments, setDeleteComments] = useState(null)
     const navigate = useNavigate()
     const handleComment = async (e) => {
         e.preventDefault()
@@ -98,13 +102,39 @@ export default function CommentSection({ postId }) {
         }
     }
 
-    const handelEdit = (updatedComment, editedContent) => {
+    const handelEdit = async (updatedComment, editedContent) => {
         setPostComments(postComments.map((c) => {
-          return  c._id === updatedComment._id ? { ...c, content: editedContent } : c
+            return c._id === updatedComment._id ? { ...c, content: editedContent } : c
         }))
     }
 
 
+    const handleDelete = async (commentId) => {
+            setModal(false)
+            try{
+              const result = await fetch(`http://localhost:5000/comment/deleteComment/${commentId}` , {
+                method: "DELETE" , 
+                headers:{
+                  "Content-Type": "application/json"
+                },
+                 credentials: "include"
+              })
+              const data = await result.json()
+              if(result.ok){
+                setPostComments(
+                    postComments.filter((comment)=> comment._id !== deleteComments)
+                )
+                console.log("commentId is ",commentId)
+                console.log("delete Comment is ", deleteComments)
+              }
+              if(!result.ok){
+                console.log(data.message)
+                return
+              }
+            }catch(error){console.log(error.message)}
+          }
+
+          console.log(deleteComments)
     return (
         <div className='w-full'>
             {
@@ -162,12 +192,48 @@ export default function CommentSection({ postId }) {
                 )}
             <div>
                 {
-                    postComments.map((comment, index) => (
-                        <Comment comment={comment} key={index} onLike={handleLikes} onEdit={handelEdit} />
+                    postComments.map((comment) => (
+                        <Comment 
+                        comment={comment} 
+                        key={comment._id} 
+                        onLike={handleLikes} 
+                        onEdit={handelEdit}
+                        onDelete={(commentId) => {
+                            setModal(true);
+                            setDeleteComments(commentId);
+                            console.log("comment id is :", commentId , comment._id);
+                            console.log("Current comments before filtering:", postComments.map(comment => comment._id));
+                        }}
+                         />
                     ))
                 }
             </div>
-
+            {
+                modal && (
+                    <Modal show={modal} onClose={() => { setModal(false) }} popup size='sm' className='p-5'>
+                        <Modal.Header />
+                        <Modal.Body>
+                            <div className='text-center'>
+                                <HiOutlineExclamationCircle
+                                    className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-5 mx-auto border-none 
+    outline-none focus:outline-none'
+                                />
+                                <h3 className='text-lg mb-5 text-gray-500 dark:text-gray-400'>Do you want to Delete this Comment?</h3>
+                            </div>
+                            <div className='flex justify-center gap-5'>
+                                <Button
+                                    gradientDuoTone='purpleToPink' outline
+                                    onClick={() => handleDelete(deleteComments)}
+                                    color='failure'>Yes, Delete</Button>
+                                <Button gradientDuoTone='purpleToBlue' outline onClick={() => { setModal(false) }}>No, Cancel</Button>
+                            </div>
+                        </Modal.Body>
+                    </Modal>
+                )
+            }
         </div>
     )
 }
+
+
+

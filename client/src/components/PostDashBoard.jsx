@@ -119,7 +119,7 @@ export default function PostDashBoard() {
                 </Table.HeadCell>
               </Table.Head>
               {
-                posts.map((post, index) => (
+                posts.map((post) => (
                   <Table.Body key={post._id} className='divide-y'>
                     <Table.Row className='dark:border-gray-700
                     dark:bg-gray-800'>
