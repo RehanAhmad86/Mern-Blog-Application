@@ -12,7 +12,7 @@ import PrivateComponent from './components/PrivateComponent.jsx'
 import CreatePost from './components/CreatePost.jsx'
 import Admin from './components/Admin.jsx'
 import UpdatePost from './pages/updatePost.jsx'
-import Posts from './pages/posts.jsx'
+import Posts from './pages/Posts.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 
 export default function App() {

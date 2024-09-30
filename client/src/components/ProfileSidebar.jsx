@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {  Sidebar } from 'flowbite-react'
-import {HiDocumentText, HiOutlineUserGroup, HiUser } from 'react-icons/hi'
+import {HiAnnotation, HiDocumentText, HiOutlineAnnotation, HiOutlineUserGroup, HiUser } from 'react-icons/hi'
 import { HiArrowCircleRight } from 'react-icons/hi'
 import { signOutSucces } from '../redux/User/userSlice.js'
 import { useDispatch , useSelector } from 'react-redux'
@@ -58,6 +58,14 @@ export default function ProfileSidebar() {
         <Link to={'/dashboard?tab=users'}>
         <Sidebar.Item active={tab === 'users'} icon={HiOutlineUserGroup}  as='div'>
           Users
+        </Sidebar.Item>
+        </Link>
+        }
+        {
+          currentUser.isAdmin && 
+        <Link to={'/dashboard?tab=comments'}>
+        <Sidebar.Item active={tab === 'comments'} icon={HiAnnotation}  as='div'>
+          Comments
         </Sidebar.Item>
         </Link>
         }

@@ -1,3 +1,4 @@
+import { request } from "express"
 import { errorHandler } from "../errorHandler/errorHandler.js"
 import Comment from "../models/comment.model.js"
 
@@ -79,4 +80,23 @@ export const deleteComment = async (request, response, next) => {
         await Comment.findByIdAndDelete(request.params.id)
         response.status(200).json("Comment has been deleted!")
     } catch (error) { next(error) }
+}
+
+export const getAllComment = async ( request , response , next ) => {
+    if(!request.user.isAdmin){
+        return next(errorHandler( 401 , 'You cannot delete the commets!'))
+    }
+    try{
+        const startIndex = parseInt(request.query.startIndex) || 0
+        const limit = parseInt(request.query.limit) || 9
+        const order = request.query.order === 'asc' ? 1 : -1
+        const comments = await Comment.find().sort({createdAt: order}).skip(startIndex).limit(limit)
+        const totalComments = await Comment.countDocuments()
+        const date = new Date()
+        const dateMonthAgo = new Date(date.getFullYear() , date.getMonth() -1 , date.getDate())
+        const lastMonthComments = await Comment.countDocuments({
+          createdAt:  {$gte: dateMonthAgo}
+        })
+        response.status(200).json(comments , totalComments , lastMonthComments)
+    }catch(error){next(error)}
 }
