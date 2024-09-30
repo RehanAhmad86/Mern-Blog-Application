@@ -44,7 +44,6 @@ export const getPosts = async (request, response, next) => {
             date.getDate()
         )
         // console.log(lastMonth)
-
         const postsLastMonth = await Post.countDocuments(
             {
                 createdAt: {

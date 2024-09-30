@@ -133,8 +133,6 @@ export default function CommentSection({ postId }) {
               }
             }catch(error){console.log(error.message)}
           }
-
-          console.log(deleteComments)
     return (
         <div className='w-full'>
             {
