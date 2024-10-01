@@ -26,8 +26,8 @@ export default function AllComments() {
           return
         }
         if (result.ok) {
-          setComments(data)
-          if(data.length < 9){
+          setComments(data.comments)
+          if(data.comments.length < 9){
             setShowMore(false)
           }
         }
@@ -57,12 +57,12 @@ export default function AllComments() {
         return
       }
       const data = await result.json()
-      if (data.length === 0) {
+      if (data.comments.length === 0) {
         setShowMore(false)
       }
       if(result.ok){
-        setComments(comments=>[...comments , ...data])
-        if(data.length < 9 ){
+        setComments(comments=>[...comments , ...data.comments])
+        if(data.comments.length < 9 ){
           setShowMore(false)
         }
       }

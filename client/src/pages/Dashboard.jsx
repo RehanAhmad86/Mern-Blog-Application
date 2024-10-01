@@ -5,6 +5,7 @@ import ProfileBar from '../components/ProfileBar'
 import PostDashBoard from '../components/PostDashBoard'
 import UserDashBoard from '../components/UserDashBoard'
 import AllComments from '../components/AllComments'
+import AdminDashboard from '../components/AdminDashboard'
 
 export default function Dashboard() {
   const location = useLocation()
@@ -27,6 +28,7 @@ export default function Dashboard() {
         { tab === 'posts' && <PostDashBoard/> }
         { tab === 'users' && <UserDashBoard/> }
         { tab === 'comments' && <AllComments/> }
+        { tab === 'admin' && <AdminDashboard/> }
     </div>
     </div>
   )

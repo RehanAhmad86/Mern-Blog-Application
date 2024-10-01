@@ -1,4 +1,3 @@
-import { request } from "express"
 import { errorHandler } from "../errorHandler/errorHandler.js"
 import Comment from "../models/comment.model.js"
 
@@ -97,6 +96,6 @@ export const getAllComment = async ( request , response , next ) => {
         const lastMonthComments = await Comment.countDocuments({
           createdAt:  {$gte: dateMonthAgo}
         })
-        response.status(200).json(comments , totalComments , lastMonthComments)
+        response.status(200).json({comments , totalComments , lastMonthComments})
     }catch(error){next(error)}
 }

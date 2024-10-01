@@ -5,6 +5,7 @@ import {HiAnnotation, HiDocumentText, HiOutlineAnnotation, HiOutlineUserGroup, H
 import { HiArrowCircleRight } from 'react-icons/hi'
 import { signOutSucces } from '../redux/User/userSlice.js'
 import { useDispatch , useSelector } from 'react-redux'
+import { FaUserShield } from 'react-icons/fa';
 
 export default function ProfileSidebar() {
   const { currentUser } = useSelector(state => state.user)
@@ -66,6 +67,14 @@ export default function ProfileSidebar() {
         <Link to={'/dashboard?tab=comments'}>
         <Sidebar.Item active={tab === 'comments'} icon={HiAnnotation}  as='div'>
           Comments
+        </Sidebar.Item>
+        </Link>
+        }
+        {
+          currentUser.isAdmin && 
+        <Link to={'/dashboard?tab=admin'}>
+        <Sidebar.Item active={tab === 'admin'} icon={FaUserShield}  as='div'>
+          Dashboard
         </Sidebar.Item>
         </Link>
         }
