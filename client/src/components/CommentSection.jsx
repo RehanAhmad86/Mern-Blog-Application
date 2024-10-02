@@ -110,29 +110,29 @@ export default function CommentSection({ postId }) {
 
 
     const handleDelete = async (commentId) => {
-            setModal(false)
-            try{
-              const result = await fetch(`http://localhost:5000/comment/deleteComment/${commentId}` , {
-                method: "DELETE" , 
-                headers:{
-                  "Content-Type": "application/json"
+        setModal(false)
+        try {
+            const result = await fetch(`http://localhost:5000/comment/deleteComment/${commentId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
                 },
-                 credentials: "include"
-              })
-              const data = await result.json()
-              if(result.ok){
+                credentials: "include"
+            })
+            const data = await result.json()
+            if (result.ok) {
                 setPostComments(
-                    postComments.filter((comment)=> comment._id !== deleteComments)
+                    postComments.filter((comment) => comment._id !== deleteComments)
                 )
-                console.log("commentId is ",commentId)
+                console.log("commentId is ", commentId)
                 console.log("delete Comment is ", deleteComments)
-              }
-              if(!result.ok){
+            }
+            if (!result.ok) {
                 console.log(data.message)
                 return
-              }
-            }catch(error){console.log(error.message)}
-          }
+            }
+        } catch (error) { console.log(error.message) }
+    }
     return (
         <div className='w-full'>
             {
@@ -191,18 +191,18 @@ export default function CommentSection({ postId }) {
             <div>
                 {
                     postComments.map((comment) => (
-                        <Comment 
-                        comment={comment} 
-                        key={comment._id} 
-                        onLike={handleLikes} 
-                        onEdit={handelEdit}
-                        onDelete={(commentId) => {
-                            setModal(true);
-                            setDeleteComments(commentId);
-                            console.log("comment id is :", commentId , comment._id);
-                            console.log("Current comments before filtering:", postComments.map(comment => comment._id));
-                        }}
-                         />
+                        <Comment
+                            comment={comment}
+                            key={comment._id}
+                            onLike={handleLikes}
+                            onEdit={handelEdit}
+                            onDelete={(commentId) => {
+                                setModal(true);
+                                setDeleteComments(commentId);
+                                console.log("comment id is :", commentId, comment._id);
+                                console.log("Current comments before filtering:", postComments.map(comment => comment._id));
+                            }}
+                        />
                     ))
                 }
             </div>

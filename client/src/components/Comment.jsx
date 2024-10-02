@@ -74,7 +74,7 @@ export default function Comment({ comment, onLike, onEdit , onDelete }) {
                             onChange={event => setEditedContent(event.target.value)}
                         />
                     ) : (
-                        <div className='pb-2 text-gray-300'>
+                        <div className='pb-2 text-gray-500 dark:text-gray-300'>
                             {editedContent}
                         </div>
                     )
@@ -97,11 +97,11 @@ export default function Comment({ comment, onLike, onEdit , onDelete }) {
                             <button
                                 type='button'
                                 onClick={() => { onLike(comment._id) }}
-                                className={`text-gray-300 hover:text-blue-500
+                                className={`text-gray-500 dark:text-gray-300 hover:text-blue-500
                    ${currentUser && comment.likes.includes(currentUser._id) ? '!text-blue-500' : ''}`}>
                                 <FaThumbsUp />
                             </button>
-                            <p className='text-gray-300'>
+                            <p className='text-gray-500 dark:text-gray-300'>
                                 {comment.numberOfLikes && comment.numberOfLikes > 0 && `${comment.numberOfLikes}  ${comment.numberOfLikes === 1 ? 'like' : 'likes'}`}
                             </p>
                             {
@@ -109,12 +109,12 @@ export default function Comment({ comment, onLike, onEdit , onDelete }) {
                                 <>
                                     <button
                                         onClick={handleEdit}
-                                        className='text-gray-300 hover:text-blue-500'
+                                        className='text-gray-500 dark:text-gray-300 hover:text-blue-500'
                                     >Edit
                                     </button>
                                     <button
                                         onClick={()=>onDelete(comment._id)}
-                                        className='text-gray-300 hover:text-red-500'
+                                        className='text-gray-500 dark:text-gray-300 hover:text-red-500'
                                     >Delete
                                     </button>
                                 </>

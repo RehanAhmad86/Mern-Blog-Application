@@ -6,7 +6,7 @@ export default function CallToAction() {
         <div className='flex flex-col sm:flex-row gap-3 border-2 border-teal-300 p-5 rounded-tl-3xl rounded-br-3xl'>
             <div className='flex flex-col gap-2 justify-center items-center text-center '>
                 <h1 className='text-2xl'>Learn JavaScript in 100 days</h1>
-                <p className='text-gray-300'>Join our community of web Development & learn web Development.</p>
+                <p className='text-gray-500 dark:text-gray-300'>Join our community of web Development & learn web Development.</p>
                 <a href='https://www.100jsprojects.com' target='_blank' rel='noopener noreferrer'>
                     <Button
                     gradientDuoTone='purpleToPink' className='rounded-tr-sm rounded-bl-sm min-w-44'>
