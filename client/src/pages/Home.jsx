@@ -9,14 +9,14 @@ export default function Home() {
     fetchPosts()
   }, [])
   const fetchPosts = async () => {
-    try{
+    try {
       const result = await fetch(`http://localhost:5000/post/getposts`, {
       })
       const data = await result.json()
       if (result.ok) {
         setAllPosts(data.posts)
       }
-    }catch(error){console.log(error)}
+    } catch (error) { console.log(error) }
   }
 
   return (
@@ -34,10 +34,12 @@ export default function Home() {
           view all posts
         </Link>
       </div>
-      <div className='px-7 md:px-16'><div
-        className='rounded-tl-3xl rounded-br-3xl p-5 md:p-16 dark:bg-teal-800'>
-        <CallToAction />
-      </div></div>
+      <div className='p-7 md:px-16'>
+        <div
+        className='rounded-tl-3xl rounded-br-3xl p-5 md:p-16 bg-amber-100 dark:bg-teal-800'>
+          <CallToAction />
+        </div>
+      </div>
 
 
       {

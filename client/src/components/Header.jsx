@@ -1,17 +1,29 @@
 import { Avatar, Button, Dropdown, Navbar, TextInput } from 'flowbite-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { FaMoon, FaSun } from 'react-icons/fa'
 import { useSelector , useDispatch } from 'react-redux'
 import { themeReducer } from '../redux/Theme/themeSlice'
 import { signOutSucces } from '../redux/User/userSlice.js'
+import { useNavigate } from 'react-router-dom'
 
 export default function Header() {
     const location = useLocation().pathname
+    const location1 = useLocation()
     const dispatch = useDispatch()
     const { theme } = useSelector(state => state.theme)
     const { currentUser } = useSelector(state => state.user)
+    const [ search , setSearch ] = useState('')
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        const url = new URLSearchParams(location1.search)
+        const getUrl = url.get('searchTerm')
+        if(getUrl){
+            setSearch(getUrl)
+        }
+    } , [location1.search])
 
     
   const signOut = async () => {
@@ -29,6 +41,13 @@ export default function Header() {
     }
 }
 
+const handleUrl = (e) => {
+    e.preventDefault()
+    const url = new URLSearchParams(location1.search)
+    url.set('searchTerm',search)
+    const queryString = url.toString()
+    navigate(`/search?${queryString}`)
+}
 
     return (
         <Navbar className='border-b-2'>
@@ -37,12 +56,14 @@ export default function Header() {
         rounded-lg text-white'>Rehan</span>
                 Blog
             </Link>
-            <form>
+            <form onSubmit={handleUrl}>
                 <TextInput
                     type='text'
                     placeholder='Search'
                     rightIcon={AiOutlineSearch}
                     className='hidden lg:inline'
+                    value={search}
+                    onChange={event=> setSearch(event.target.value)}
                 />
             </form>
             <Button className='lg:hidden w-12 h-10 flex justify-center items-center' pill color='gray'>

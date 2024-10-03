@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 export default function RecentPostsPage({recent}) {
   return (
-    <div className='w-[320px] group'>
+    <div className='w-[300px] group'>
       <div className='border-[2px] border-gray-400 p-2 flex-wrap flex flex-col gap-3 rounded-lg  relative overflow-hidden h-[400px]'>
       <Link>
       <img src={recent.imageUrl} 
