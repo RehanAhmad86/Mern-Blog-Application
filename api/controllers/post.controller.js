@@ -51,7 +51,7 @@ export const getPosts = async (request, response, next) => {
                 }
             }
         )
-        console.log(`Fetching posts from index: ${startIndex}, limit: ${limit}`);
+        //console.log(`Fetching posts from index: ${startIndex}, limit: ${limit}`);
         response.status(200).json({
             posts,
             totalPost,

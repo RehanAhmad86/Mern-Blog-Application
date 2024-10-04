@@ -1,7 +1,7 @@
-import { Footer, FooterDivider, FooterTitle } from 'flowbite-react'
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { BsFacebook, BsGithub, BsInstagram, BsDribbble, BsTwitter, BsThreads } from 'react-icons/bs'
+import { Footer, FooterDivider, FooterTitle } from 'flowbite-react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { BsFacebook, BsGithub, BsInstagram, BsDribbble, BsTwitter, BsThreads } from 'react-icons/bs';
 
 export default function FooterComponent() {
     return (
@@ -9,16 +9,11 @@ export default function FooterComponent() {
             <div className='w-full flex justify-around items-center max-w-7xl mx-auto gap-5 mb-3 p-3 sm:px-5'>
                 <div>
                     <Link to={'/'} className='self-center whitespace-nowrap font-semibold text-xl sm:text-3xl dark:text-white'>
-                        <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
-                                        rounded-lg text-white'>Rehan
-                        </span>
-                        Blog
-                    </Link>
+                        <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>Rehan</span>
+                        Blog</Link>
                 </div>
 
-
-
-                <div className='grid grid-cols-2 mt-4 sm:grid-cols-4 gap-5 '>
+                <div className='grid grid-cols-2 mt-4 sm:grid-cols-4 gap-5'>
                     <div>
                         <FooterTitle title='About' />
                         <Footer.LinkGroup col>
@@ -29,13 +24,11 @@ export default function FooterComponent() {
                             >
                                 100 JS Projects
                             </Footer.Link>
-                            <Footer.Link
-                                href='/about'
-                                target='_blank'
-                                rel='noopener noreferrer'
-                            >
-                                About
-                            </Footer.Link>
+                            <Link to='/about'>
+                                <Footer.Link>
+                                    About
+                                </Footer.Link>
+                            </Link>
                         </Footer.LinkGroup>
                     </div>
 
@@ -50,50 +43,42 @@ export default function FooterComponent() {
                                 Github
                             </Footer.Link>
                             <Footer.Link
-                                href='#'
+                                href='https://www.linkedin.com/in/rehan-ahmad-05ba0a2a2/'
                                 target='_blank'
                                 rel='noopener noreferrer'
                             >
-                                Discord
+                                Linked In
                             </Footer.Link>
                         </Footer.LinkGroup>
                     </div>
                     <div>
                         <FooterTitle title='Legal' />
                         <Footer.LinkGroup col>
-                            <Footer.Link
-                                href='#'
-                                target='_blank'
-                                rel='noopener noreferrer'
-                            >
-                                Privacy Policy
-                            </Footer.Link>
-                            <Footer.Link
-                                href='#'
-                                target='_blank'
-                                rel='noopener noreferrer'
-                            >
-                                Terms &amp; Conditions
-                            </Footer.Link>
+                            <Link to='/privacy-policy'>
+                                <Footer.Link>
+                                    Privacy Policy
+                                </Footer.Link>
+                            </Link>
+                            <Link to='/terms-conditions'>
+                                <Footer.Link>
+                                    Terms &amp; Conditions
+                                </Footer.Link>
+                            </Link>
                         </Footer.LinkGroup>
                     </div>
                     <div>
                         <FooterTitle title='Customer Support' />
                         <Footer.LinkGroup col>
-                            <Footer.Link
-                                href='#'
-                                target='_blank'
-                                rel='noopener noreferrer'
-                            >
-                                FAQ's
-                            </Footer.Link>
-                            <Footer.Link
-                                href='#'
-                                target='_blank'
-                                rel='noopener noreferrer'
-                            >
-                                Help Center
-                            </Footer.Link>
+                            <Link to='/faqs'>
+                                <Footer.Link>
+                                    FAQ's
+                                </Footer.Link>
+                            </Link>
+                            <Link to='/help-center'>
+                                <Footer.Link>
+                                    Help Center
+                                </Footer.Link>
+                            </Link>
                         </Footer.LinkGroup>
                     </div>
                 </div>
@@ -110,5 +95,5 @@ export default function FooterComponent() {
                 </div>
             </div>
         </Footer>
-    )
+    );
 }

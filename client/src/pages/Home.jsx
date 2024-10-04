@@ -36,7 +36,7 @@ export default function Home() {
       </div>
       <div className='p-7 md:px-16'>
         <div
-        className='rounded-tl-3xl rounded-br-3xl p-5 md:p-16 bg-amber-100 dark:bg-teal-800'>
+        className='rounded-tl-3xl rounded-br-3xl p-5 md:p-16 bg-amber-100 dark:bg-teal-500'>
           <CallToAction />
         </div>
       </div>

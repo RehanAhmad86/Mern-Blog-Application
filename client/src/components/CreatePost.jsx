@@ -99,6 +99,7 @@ export default function CreatePost() {
             <option value='ReactJs'>React js</option>
             <option value='NodeJs'>Node js</option>
             <option value='MongoDB'>Mongo DB</option>
+            <option value='Nextjs'>Next js</option>
           </Select>
         </div>
         <div className='flex gap-4 items-center justify-between p-3 border-2
